@@ -1,4 +1,4 @@
-# Sum to N Methods
+# Problem 4: Three ways to sum to n
 
 This document compares three methods for computing the sum of the first `n` integers.
 
@@ -60,3 +60,56 @@ function sum_to_n_c(n: number): number {
 
 ### Special Considerations:
 - If `n` is very large, both the Iterative and Recursive methods may struggle, making the Formula method the clear choice.
+
+
+
+# Problem 5: A Crude Server
+
+## Prerequisites
+
+Before getting started, you need to install Docker on your machine. Please follow the steps below to install Docker:
+
+- **Install Docker**: You can download and install Docker from the official website: [Download Docker](https://www.docker.com/get-started)
+
+## Instructions
+
+### Step 1: Install Docker
+
+If you haven't installed Docker yet, follow these steps:
+
+1. Download Docker from [Docker Desktop](https://www.docker.com/get-started).
+2. Follow the installation guide for your operating system (Windows, macOS, or Linux).
+
+After installation, you can verify if Docker is working correctly by running the following command:
+
+```bash
+docker --version
+```
+
+If you see the Docker version information, Docker has been installed successfully.
+
+
+### Step 2: Run the Server with Docker
+
+1. Open a terminal and navigate to the `99tech-test` directory:
+
+```bash
+cd 99tech-test
+```
+
+2. Run the following command to start the server with Docker:
+
+```bash
+docker compose up -d
+```
+
+This command will use Docker Compose to start the application in detached mode.
+
+### A Crude Server (Coupon Module)
+
+The application is a basic server designed to manage coupons. The server will be up and running once the Docker Compose process completes.
+
+An example `.env` file has been created and referenced in the `docker-compose.yml` file to help you run the project smoothly. Please ensure you review or modify it as necessary before starting the server.
+
+
+# Problem 6: Architecture
