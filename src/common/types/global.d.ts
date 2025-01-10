@@ -1,0 +1,3 @@
+interface CountryCode {
+  name: string;
+}

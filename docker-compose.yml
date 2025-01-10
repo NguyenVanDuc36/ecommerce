@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  mongodb:
+    container_name: mongodb-development
+    image: mongo
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - '27017:27017'
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+    networks:
+      - app-network
+
+  node-server:
+    container_name: node-server
+    build: ./
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      PREFIX: /api/v1
+      MONGO_URL: mongodb://mongodb:27017/99tech
+      JWT_ACCESS_EXPIRATION: 1d
+      JWT_REFRESH_EXPIRATIONS: 2d
+      JWT_SECRET: 99tech
+      JWT_ISSUER: 99tech
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      SCORE_EXPIRATION: 30s
+      SCORE_SECRET: 99tech_score
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
+volumes:
+  cache:
+    driver: local
+  mongo-data:
+    driver: local
