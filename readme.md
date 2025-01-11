@@ -190,7 +190,7 @@ To ensure the security and integrity of the scoring system, the Scoreboard Servi
     - Retrieve rankings with pagination.
 
 ### Diagram Illustration
-![alt text](image.png)
+![flow diagram](flow-diagram.png)
 
 ## Middleware
 
