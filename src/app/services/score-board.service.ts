@@ -6,6 +6,7 @@ import { AddScoreDto } from '../dto/scrore-board/add-scrore.dto';
 import { UserDocument, UserModel } from '../models/user';
 import { PaginateDto } from '../dto';
 import { userRepository } from '../repositories';
+import { scoreBoardSocket } from '../socket/score-board.socket';
 
 export class ScoreBoardService {
   async generateScoreToken(user: UserDocument) {
@@ -27,6 +28,8 @@ export class ScoreBoardService {
       { score: user.score + payload.type },
     );
 
+    const rankings = await this.getRanking({ page: 1, limit: 10 });
+    scoreBoardSocket.updateRanking(rankings.docs);
     await this.resetBossSpawnTime(user);
   }
 

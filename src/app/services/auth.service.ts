@@ -64,7 +64,7 @@ export class AuthService {
    */
   async isValidScoreToken(token: string): Promise<boolean> {
     try {
-      const payload = this._verityToken(token, config.score.secret);
+      const payload = this.verityToken(token, config.score.secret);
 
       const user = await userRepository.findOne({ id: payload?.sub });
       if (!user) return false;
@@ -83,7 +83,7 @@ export class AuthService {
     }
   }
 
-  private _generateToken(
+  _generateToken(
     payload: Record<string, any>,
     key: string,
     options: SignOptions = {},
@@ -91,7 +91,23 @@ export class AuthService {
     return jwt.sign(payload, key, options).toString();
   }
 
-  private _verityToken(token: string, secret = config.jwt.secret) {
+  async verifyAccessToken(accessToken: string): Promise<UserDocument> {
+    try {
+      const payload = await authService.verityToken(
+        accessToken,
+        config.jwt.secret,
+      );
+
+      if (config.jwt.issuer !== payload['iss']) return null;
+      if (payload['type'] !== ETokenType.ACCESS_TOKEN) return null;
+
+      return userRepository.findOne({ id: payload.sub });
+    } catch (error) {
+      return null;
+    }
+  }
+
+  verityToken(token: string, secret = config.jwt.secret) {
     return jwt.verify(token, secret);
   }
 }

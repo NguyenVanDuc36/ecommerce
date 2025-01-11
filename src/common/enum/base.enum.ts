@@ -42,3 +42,18 @@ export enum EScoreType {
   TWO = 2,
   THREE = 3,
 }
+
+/** Socket */
+
+export enum SizeLimitEnum {
+  CONNECTION_LIMIT = 3,
+}
+
+export enum EClientToServerEvent {
+  JOIN_RANKING = 'join-ranking',
+  LEAVE_RANKING = 'leave-ranking',
+}
+
+export enum EServerToClientEvent {
+  UPDATE_RANKING = 'update-ranking',
+}

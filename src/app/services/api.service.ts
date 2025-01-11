@@ -6,6 +6,7 @@ import {
   errorHandler,
   pageNotFoundError,
 } from '@src/common/middlewares/error.middleware';
+import { loggerMiddleware } from '@src/common/middlewares/logger.middleware';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
@@ -14,7 +15,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import http from 'http';
-import { loggerMiddleware } from '@src/common/middlewares/logger.middleware';
+import { socketService } from '../socket/socket';
 
 export class ApiService {
   static app = express();
@@ -58,6 +59,8 @@ export class ApiService {
         env: config.env,
       });
     });
+
+    socketService.connect(httpServer);
   }
 
   static useMiddlewares(middlewares = []) {

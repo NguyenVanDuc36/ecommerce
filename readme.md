@@ -198,3 +198,10 @@ To ensure the security and integrity of the scoring system, the Scoreboard Servi
 - Validates one-time score tokens.
 - Ensures tokens are not reused by checking Redis.
 - Blocks requests with invalid or reused tokens.
+
+
+## Improvements and Recommendations
+
+1. **Documentation:**
+   - Include detailed examples for API usage.
+   - Provide a Swagger/OpenAPI spec for better integration with front-end clients.
