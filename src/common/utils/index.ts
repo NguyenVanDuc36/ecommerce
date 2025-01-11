@@ -1,2 +1,2 @@
 export * from './api-error';
-export * from './common.helper'
+export * from './common.helper';

@@ -3,7 +3,11 @@ import { ApiError, generateUniqueCode } from '@src/common';
 import { ECodeUsage } from '@src/common/enum';
 import httpStatus from 'http-status';
 import { ProjectionType, QueryOptions } from 'mongoose';
-import { CouponItemModel, CouponDocument, CouponDocumentItem } from '../models/coupon';
+import {
+  CouponDocument,
+  CouponDocumentItem,
+  CouponItemModel,
+} from '../models/coupon';
 
 class CouponHelper {
   /**
@@ -41,7 +45,7 @@ class CouponHelper {
       prefix?: string;
     },
   >(payload: T) {
-    if (payload.total === 0) return []; // Return an empty array if total is 0.
+    if (payload.total === 0) return [];
     const couponItemCodes = (await couponItemRepository.find({})).map(
       (item) => item.code,
     );
@@ -76,7 +80,7 @@ class CouponHelper {
         break;
     }
 
-    return couponItems; // Return the generated coupon items.
+    return couponItems;
   }
 }
 

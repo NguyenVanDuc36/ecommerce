@@ -3,13 +3,10 @@ import mongoose, {
   InsertManyOptions,
   Model,
   MongooseBaseQueryOptions,
-  MongooseUpdateQueryOptions,
   PaginateOptions,
   ProjectionType,
   QueryOptions,
   RootFilterQuery,
-  UpdateQuery,
-  UpdateWithAggregationPipeline,
 } from 'mongoose';
 
 export interface IRepository<TEntity> {
@@ -21,7 +18,7 @@ export interface IRepository<TEntity> {
 
   create(data: Partial<TEntity>): Promise<TEntity>;
 
-  find<ResultDoc = TEntity>(
+  find<TEntity>(
     filter: RootFilterQuery<TEntity>,
     projection?: ProjectionType<TEntity> | null | undefined,
     options?: QueryOptions<TEntity> | null | undefined,

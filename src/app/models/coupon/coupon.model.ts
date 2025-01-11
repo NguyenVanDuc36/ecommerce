@@ -69,8 +69,7 @@ CouponSchema.plugin(toJSON);
 CouponSchema.plugin(paginate);
 
 CouponSchema.pre('save', async function (next) {
-  const doc = this;
-  if (!doc.id) doc.id = await uniqueStringGenerator('iId', 'CouponModel');
+  if (!this.id) this.id = await uniqueStringGenerator('iId', 'CouponModel');
   next();
 });
 

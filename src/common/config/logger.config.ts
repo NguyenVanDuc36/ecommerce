@@ -1,6 +1,5 @@
 import { config } from '@src/common/config/index';
 import winston from 'winston';
-import { NextFunction, Request, Response } from 'express';
 
 const enumerateErrorFormat = winston.format((info) => {
   if (info instanceof Error) {

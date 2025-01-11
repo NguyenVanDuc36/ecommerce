@@ -1,28 +1,15 @@
+import { LoginDto } from '@src/app/dto';
+import { UserDocument, UserModel } from '@src/app/models/user';
+import { userRepository } from '@src/app/repositories';
+import redisService from '@src/app/services/redis.service';
 import { ApiError, config } from '@src/common';
 import { ETokenType } from '@src/common/enum';
 import bcrypt from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { LoginDto } from '../dto';
-import { UserModel } from '../models';
-import { UserDocument } from '../models/user';
-import { userRepository } from '../repositories';
-import redisService from './redis.service';
 
 export class AuthService {
-  static generateToken(
-    payload: Object,
-    key: string,
-    options: SignOptions = {},
-  ) {
-    return jwt.sign(payload, key, options).toString();
-  }
-
-  static verityToken(token: string, secret = config.jwt.secret) {
-    return jwt.verify(token, secret);
-  }
-
-  static async login(payload: LoginDto) {
+  async login(payload: LoginDto): Promise<Record<string, any>> {
     const user = await UserModel.findOne({
       userName: payload.userName,
     }).select('+password');
@@ -37,7 +24,7 @@ export class AuthService {
         'user name or password is incorrect',
       );
 
-    const tokens = await AuthService.generateAuthTokens(user);
+    const tokens = await this.generateAuthTokens(user);
 
     delete user['_doc'].password;
     delete user['_doc'].bossAppearsAt;
@@ -45,8 +32,8 @@ export class AuthService {
     return { ...user.toObject(), tokens };
   }
 
-  static async generateAuthTokens(user: UserDocument) {
-    const accessToken = AuthService.generateToken(
+  async generateAuthTokens(user: UserDocument) {
+    const accessToken = this._generateToken(
       {
         sub: user.id,
         iss: config.jwt.issuer,
@@ -56,7 +43,7 @@ export class AuthService {
       { expiresIn: config.jwt.accessExpirationMinutes },
     );
 
-    const refreshToken = AuthService.generateToken(
+    const refreshToken = this._generateToken(
       {
         sub: user.id,
         iss: config.jwt.issuer,
@@ -75,9 +62,9 @@ export class AuthService {
    * @param {string} token - The token to validate.
    * @returns {Promise<boolean>} - Returns true if the token is valid, otherwise false.
    */
-  static async isValidScoreToken(token: string): Promise<boolean> {
+  async isValidScoreToken(token: string): Promise<boolean> {
     try {
-      const payload = AuthService.verityToken(token, config.score.secret);
+      const payload = this._verityToken(token, config.score.secret);
 
       const user = await userRepository.findOne({ id: payload?.sub });
       if (!user) return false;
@@ -95,4 +82,18 @@ export class AuthService {
       return false;
     }
   }
+
+  private _generateToken(
+    payload: Record<string, any>,
+    key: string,
+    options: SignOptions = {},
+  ) {
+    return jwt.sign(payload, key, options).toString();
+  }
+
+  private _verityToken(token: string, secret = config.jwt.secret) {
+    return jwt.verify(token, secret);
+  }
 }
+
+export const authService = new AuthService();

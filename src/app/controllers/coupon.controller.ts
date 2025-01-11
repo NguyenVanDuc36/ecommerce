@@ -1,66 +1,68 @@
+import { AddCouponDto } from '@src/app/dto/coupon/add-coupon.dto';
+import { couponService } from '@src/app/services';
 import {
   ExtendedNextFunction,
   ExtendedRequest,
   ExtendedResponse,
 } from '@src/common/types/type';
 import httpStatus from 'http-status';
-import { AddCouponDto } from '../dto/coupon/add-coupon.dto';
-import { couponService } from '../services';
 
 export class CouponController {
-  static async updateCoupon(
+  async updateCoupon(
     req: ExtendedRequest,
     res: ExtendedResponse,
     next: ExtendedNextFunction,
   ) {
     try {
       const coupon = await couponService.updateCoupon(+req.params.id, req.body);
-      res.json({ data: coupon });
+      res.status(httpStatus.OK).json({ data: coupon });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getCoupons(
+  async getCoupons(
     req: ExtendedRequest,
     res: ExtendedResponse,
     next: ExtendedNextFunction,
   ) {
     try {
       const coupon = await couponService.getCoupons(req.query as any);
-      res.json({ data: coupon });
+      res.status(httpStatus.OK).json({ data: coupon });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getCoupon(
+  async getCoupon(
     req: ExtendedRequest,
     res: ExtendedResponse,
     next: ExtendedNextFunction,
   ) {
     try {
       const coupon = await couponService.getCoupon(+req.params.id);
-      res.json({ coupon });
+      res.status(httpStatus.OK).json({ coupon });
     } catch (error) {
       next(error);
     }
   }
 
-  static async deleteCoupon(
+  async deleteCoupon(
     req: ExtendedRequest,
     res: ExtendedResponse,
     next: ExtendedNextFunction,
   ) {
     try {
       const coupon = await couponService.deleteCoupon(+req.params.id);
-      res.json({ coupon, message: 'Deleted coupon successfully' });
+      res
+        .status(httpStatus.OK)
+        .json({ coupon, message: 'Deleted coupon successfully' });
     } catch (error) {
       next(error);
     }
   }
 
-  static async createCoupon(
+  async createCoupon(
     req: ExtendedRequest,
     res: ExtendedResponse,
     next: ExtendedNextFunction,
@@ -77,3 +79,5 @@ export class CouponController {
     }
   }
 }
+
+export const couponController = new CouponController();

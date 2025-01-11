@@ -1,5 +1,5 @@
 import { userRepository } from '@src/app/repositories';
-import { AuthService } from '@src/app/services/auth.service';
+import { authService } from '@src/app/services/auth.service';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { config } from '../config';
@@ -20,11 +20,14 @@ export const authMiddleware =
 
       if (tokenType === 'Bearer') {
         try {
-          const payload = await AuthService.verityToken(
+          const payload = await authService.verityToken(
             accessToken,
             config.jwt.secret,
           );
-          let user = await userRepository.findOne({ id: payload.sub });
+          const user = await userRepository.findOne({ id: payload.sub });
+
+          if (!user)
+            return res.status(401).json({ message: 'Unauthorized access!' });
 
           if (config.jwt.issuer !== payload['iss'])
             return res

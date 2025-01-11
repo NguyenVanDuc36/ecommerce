@@ -47,10 +47,9 @@ UserSchema.plugin(toJSON);
 UserSchema.plugin(paginate);
 
 UserSchema.pre('save', async function (next) {
-  const doc = this;
-  if (!doc.id) doc.id = await uniqueStringGenerator('iId', 'UserModel');
-  if (doc.isModified('password'))
-    doc.password = bcrypt.hashSync(doc.password, 8);
+  if (!this.id) this.id = await uniqueStringGenerator('iId', 'UserModel');
+  if (this.isModified('password'))
+    this.password = bcrypt.hashSync(this.password, 8);
   next();
 });
 

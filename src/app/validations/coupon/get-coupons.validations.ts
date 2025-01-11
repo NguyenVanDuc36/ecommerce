@@ -19,7 +19,7 @@ export const getCouponsSchema = {
     combinationType: Joi.string()
       .valid(...Object.values(ECombinationTypeCoupon))
       .optional(),
-      isValid: Joi.bool().optional(),
+    isValid: Joi.bool().optional(),
     ...paginateSchema,
   },
 };

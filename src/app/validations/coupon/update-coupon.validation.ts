@@ -1,8 +1,4 @@
-import {
-  ECodeUsage,
-  ECombinationTypeCoupon,
-  EDiscountType,
-} from '@src/common/enum';
+import { ECombinationTypeCoupon, EDiscountType } from '@src/common/enum';
 import Joi from 'joi';
 
 export const updateCouponSchema = {

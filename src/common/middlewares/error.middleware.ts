@@ -8,16 +8,16 @@ import {
 import { ApiError } from '../utils';
 
 export const pageNotFoundError = (
-  req: ExtendedRequest,
+  req: ExtendedRequest, // eslint-disable-line @typescript-eslint/no-unused-vars
   res: ExtendedResponse,
-  next: ExtendedNextFunction,
+  next: ExtendedNextFunction, // eslint-disable-line @typescript-eslint/no-unused-vars
 ) => {
   return res.status(404).json({ error: 'Page not found' });
 };
 
 export const errorHandler = (
-  err,
-  req: ExtendedRequest,
+  err: any,
+  req: ExtendedRequest, // eslint-disable-line @typescript-eslint/no-unused-vars
   res: ExtendedResponse,
   next: ExtendedNextFunction,
 ) => {
@@ -28,7 +28,7 @@ export const errorHandler = (
     error = new ApiError(statusCode, message, false, err.stack);
   }
 
-  let { statusCode, message } = error;
+  const { statusCode, message } = error;
   res.errorMessage = error.message;
   const response = {
     statusCode,
@@ -38,4 +38,5 @@ export const errorHandler = (
   logger.error(err);
 
   res.status(statusCode).send(response);
+  next();
 };

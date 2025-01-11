@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { logger } from '../config/logger.config'; // Import logger nếu có, hoặc dùng console.log
+import { logger } from '@src/common/config/logger.config';
+import { NextFunction, Request, Response } from 'express';
 import moment from 'moment';
 
 export const loggerMiddleware = (
@@ -7,7 +7,7 @@ export const loggerMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const { method, url, headers, body, query } = req;
+  const { method, url } = req;
   const startTime = Date.now();
   logger.info(
     `[${moment(startTime).format('DD/MM/YYYY hh:mm:ss')}] Request - Method: ${method}, URL: ${url}`,

@@ -6,7 +6,8 @@ moduleAlias.addAliases({
 });
 
 import { ApiService, DbService } from '@src/app/services';
-import redisService from './app/services/redis.service';
+import redisService from '@src/app/services/redis.service';
+import { logger } from '@src/common/config/logger.config';
 
 const main = async () => {
   ApiService.start();
@@ -15,4 +16,6 @@ const main = async () => {
   await redisService.connect();
 };
 
-main().then((_) => {});
+main()
+  .then(() => {})
+  .catch((err) => logger.error(err));

@@ -1,14 +1,16 @@
+import { AddCouponDto, GetCouponsDto, PaginateDto } from '@src/app//dto';
+import {
+  CouponDocument,
+  CouponDocumentItem,
+  CouponModel,
+} from '@src/app//models/coupon';
+import { couponHelper } from '@src/app/helpers';
+import { couponRepository } from '@src/app/repositories';
 import { ApiError } from '@src/common';
 import { ECodeUsage, EDiscountType } from '@src/common/enum';
 import httpStatus from 'http-status';
 import moment from 'moment';
 import { FilterQuery } from 'mongoose';
-import { GetCouponsDto } from '../dto';
-import { AddCouponDto } from '../dto/coupon/add-coupon.dto';
-import { PaginateDto } from '../dto/coupon/paginate.dto';
-import { couponHelper } from '../helpers';
-import { CouponModel, CouponDocument, CouponDocumentItem } from '../models/coupon';
-import { couponRepository } from '../repositories';
 
 class CouponService {
   async createCoupon(payload: AddCouponDto): Promise<CouponDocument> {
@@ -57,7 +59,9 @@ class CouponService {
       { populate: { path: 'couponItems' } },
     );
   }
-  async getCoupons(filter: FilterQuery<CouponDocument> & PaginateDto & GetCouponsDto) {
+  async getCoupons(
+    filter: FilterQuery<CouponDocument> & PaginateDto & GetCouponsDto,
+  ) {
     return couponRepository.paginate(
       {
         ...(filter?.name && { name: new RegExp(filter.name.toString(), 'i') }),

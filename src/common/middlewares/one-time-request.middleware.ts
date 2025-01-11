@@ -1,4 +1,4 @@
-import { AuthService } from '@src/app/services/auth.service';
+import { authService } from '@src/app/services/auth.service';
 import { NextFunction, Request, Response } from 'express';
 
 export const oneTimeRequestMiddleware =
@@ -9,7 +9,7 @@ export const oneTimeRequestMiddleware =
       if (!scoreToken)
         return res.status(400).json({ message: 'Invalid score token!' });
 
-      const isValid = await AuthService.isValidScoreToken(scoreToken);
+      const isValid = await authService.isValidScoreToken(scoreToken);
 
       if (isValid) {
         next();

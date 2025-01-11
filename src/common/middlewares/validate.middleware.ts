@@ -1,13 +1,11 @@
 import { ApiError } from '@src/common/utils';
-
-// import { queryFilter } from '@src/utils/filter';
 import httpStatus from 'http-status';
 import Joi from 'joi';
 import {
   ExtendedNextFunction,
   ExtendedRequest,
   ExtendedResponse,
-} from '../types/type';
+} from '@src/common/types/type';
 import { queryFilter } from '../utils/filter';
 
 export const validateMiddleware =
