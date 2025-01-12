@@ -13,6 +13,11 @@ mustCheckEnv(
   'JWT_REFRESH_EXPIRATIONS',
   'JWT_SECRET',
   'JWT_ISSUER',
+  'REDIS_HOST',
+  'REDIS_PORT',
+  'REDIS_PASSWORD',
+  'SCORE_EXPIRATION',
+  'SCORE_SECRET',
 );
 
 export const config = {
